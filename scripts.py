@@ -33,7 +33,7 @@ def fix_marks(name):
 
 def remove_chastisements(name):
     """Функция по удалению замечаний из дневника.
-    
+
     Пример использования: remove_chastisements("Фролов Иван Григорьевич")
     """
     try:
@@ -45,25 +45,6 @@ def remove_chastisements(name):
         print(f"Запись с именем {name} не найдена!")
     except Schoolkid.MultipleObjectsReturned:
         print(f"Найдено несколько записей с именем {name}!")
-
-
-def get_lessons(lessons, date):
-    """Поиск урока в списке уроков по его дате.
-
-    Функция ищет по списку уроков и возвращает урок,
-    соответствующий заданонй дате.
-
-    Пример использования: get_lessons(lessons, datetime.datetime(2018, 4, 30))
-    """
-    found_lesson = None
-    for lesson in lessons:
-        if lesson.date == date:
-            found_lesson = lesson
-            break
-    if found_lesson is not None:
-        return found_lesson
-    else:
-        return "Урок не найден!"
 
 
 def create_commendation(name, subject_name, subject_year, commendation,

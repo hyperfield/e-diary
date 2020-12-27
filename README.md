@@ -66,8 +66,26 @@
    `lesson = Lesson.objects.get(subject=subject, teacher=teacher, date=date)`, сузив таким образом список уроков до одного
    интересующего урока.
 
-   Другой вариант действий это выбрать необходимый урок из списка уроков по спску уроков и дате. Для этого создана функция
-   `def get_lessons(lessons, date)` в `scripts.py`.
+   Другой вариант действий это выбрать необходимый урок из списка уроков по спску уроков и дате. Для этого можно использовать функцию
+   `get_lessons(lessons, date)`, приведённую ниже:
+
+   def get_lessons(lessons, date):
+        """Поиск урока в списке уроков по его дате.
+
+        Функция ищет по списку уроков и возвращает урок,
+        соответствующий заданонй дате.
+
+        Пример использования: get_lessons(lessons, datetime.datetime(2018, 4, 30))
+        """
+        found_lesson = None
+        for lesson in lessons:
+            if lesson.date == date:
+                found_lesson = lesson
+                break
+        if found_lesson is not None:
+            return found_lesson
+        else:
+            return "Урок не найден!"
 
 9. Ввести функцию `def create_commendation(name, subject_name, subject_year, commendation, teacher_name, date)` в консоль.
 
