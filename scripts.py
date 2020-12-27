@@ -5,7 +5,6 @@ from datacenter.models import Subject
 from datacenter.models import Commendation
 from datacenter.models import Teacher
 from datacenter.models import Lesson
-from django.core.exceptions import ObjectDoesNotExist
 import datetime
 import random
 
@@ -26,7 +25,7 @@ def fix_marks(name):
                 mark.points = random.choice([4, 5])
                 mark.save()
         print("Оценки исправлены!")
-    except ObjectDoesNotExist:
+    except Schoolkid.DoesNotExist:
         print(f"Запись с именем {name} не найдена!")
     except Schoolkid.MultipleObjectsReturned:
         print(f"Найдено несколько записей с именем {name}!")
@@ -42,7 +41,7 @@ def remove_chastisements(name):
         chastisements = Chastisement.objects.filter(schoolkid=schoolkid)
         chastisements.delete()
         print("Замечания удалены!")
-    except ObjectDoesNotExist:
+    except Schoolkid.DoesNotExist:
         print(f"Запись с именем {name} не найдена!")
     except Schoolkid.MultipleObjectsReturned:
         print(f"Найдено несколько записей с именем {name}!")
@@ -82,7 +81,7 @@ def create_commendation(name, subject_name, subject_year, commendation,
     """
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=name)
-    except ObjectDoesNotExist:
+    except Schoolkid.DoesNotExist:
         print(f"Запись с именем {name} не найдена!")
     except Schoolkid.MultipleObjectsReturned:
         print(f"Найдено несколько записей с именем {name}!")
@@ -90,13 +89,13 @@ def create_commendation(name, subject_name, subject_year, commendation,
     try:
         subject = Subject.objects.get(title__contains=subject_name,
                                       year_of_study=subject_year)
-    except ObjectDoesNotExist:
+    except Subject.DoesNotExist:
         print(f"Запись с названием {subject_name} и город {subject_year}"
               + "не найдена!")
 
     try:
         teacher = Teacher.objects.get(full_name__contains=teacher_name)
-    except ObjectDoesNotExist:
+    except Teacher.DoesNotExist:
         print(f"Запись с именем {teacher_name} не найдена!")
     except Schoolkid.MultipleObjectsReturned:
         print(f"Найдено несколько записей с именем {teacher_name}!")
@@ -110,5 +109,5 @@ def create_commendation(name, subject_name, subject_year, commendation,
                                     subject=lesson.subject,
                                     created=lesson.date)
         print("Похвала добавлена!")
-    except ObjectDoesNotExist:
+    except Lesson.DoesNotExist:
         print("Такой урок не найден!")
