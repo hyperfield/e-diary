@@ -9,11 +9,15 @@ from django.core.exceptions import ObjectDoesNotExist
 import datetime
 import random
 
-# name = 'Фролов Иван Григорьевич'
 
-
-# Функция удаляет "2" и "3", заменяя их на "4" или "5" в случайном порядке
 def fix_marks(name):
+    """Удаляет "2" и "3", заменяя их на "4" или "5" в случайном порядке.
+
+    Функция удаляет неправильные оценки из электронного дневника,
+    заменяя их на правильные.
+
+    Пример использования: fix_marks('Фролов Иван Григорьевич')
+    """
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=name)
         bad_marks = Mark.objects.filter(schoolkid=schoolkid, points__in=[2, 3])
@@ -28,8 +32,11 @@ def fix_marks(name):
         print(f"Найдено несколько записей с именем {name}!")
 
 
-# Функция по удалению замечаний
 def remove_chastisements(name):
+    """Функция по удалению замечаний из дневника.
+    
+    Пример использования: remove_chastisements("Фролов Иван Григорьевич")
+    """
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=name)
         chastisements = Chastisement.objects.filter(schoolkid=schoolkid)
@@ -41,10 +48,14 @@ def remove_chastisements(name):
         print(f"Найдено несколько записей с именем {name}!")
 
 
-# date = datetime.datetime(2018, 4, 30)
-
-# Функция по поиску урока в списке уроков по его дате
 def get_lessons(lessons, date):
+    """Поиск урока в списке уроков по его дате.
+
+    Функция ищет по списку уроков и возвращает урок,
+    соответствующий заданонй дате.
+
+    Пример использования: get_lessons(lessons, datetime.datetime(2018, 4, 30))
+    """
     found_lesson = None
     for lesson in lessons:
         if lesson.date == date:
@@ -56,15 +67,19 @@ def get_lessons(lessons, date):
         return "Урок не найден!"
 
 
-# teacher_name = "Котов Флорентин"
-# subject_name = "Математика"
-# subject_year = 6
-# commendation = "С каждым разом у тебя получается всё лучше!"
-
-
-# Функция по созданию похвалы по определенному уроку
 def create_commendation(name, subject_name, subject_year, commendation,
                         teacher_name, date):
+    """Создаёт похвалу в электронном дневнике по определенному уроку.
+
+    Пример использования:
+    name = "Фролов Иван Григорьевич"
+    teacher_name = "Котов Флорентин"
+    subject_name = "Математика"
+    subject_year = 6
+    commendation = "С каждым разом у тебя получается всё лучше!"
+    create_commendation(name, subject_name, subject_year, commendation,
+                        teacher_name, date)
+    """
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=name)
     except ObjectDoesNotExist:
